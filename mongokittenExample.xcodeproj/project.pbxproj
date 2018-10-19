@@ -35,6 +35,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A9AEB70217A22D900EEF66F /* storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D33B1F8F2179E4390070EEC2 /* Main.storyboard */,
+				D33B1F942179E43B0070EEC2 /* LaunchScreen.storyboard */,
+			);
+			path = storyboards;
+			sourceTree = "<group>";
+		};
 		D33B1F7F2179E4390070EEC2 = {
 			isa = PBXGroup;
 			children = (
@@ -54,11 +63,10 @@
 		D33B1F8A2179E4390070EEC2 /* mongokittenExample */ = {
 			isa = PBXGroup;
 			children = (
+				9A9AEB70217A22D900EEF66F /* storyboards */,
 				D33B1F8B2179E4390070EEC2 /* AppDelegate.swift */,
 				D33B1F8D2179E4390070EEC2 /* ViewController.swift */,
-				D33B1F8F2179E4390070EEC2 /* Main.storyboard */,
 				D33B1F922179E43B0070EEC2 /* Assets.xcassets */,
-				D33B1F942179E43B0070EEC2 /* LaunchScreen.storyboard */,
 				D33B1F972179E43B0070EEC2 /* Info.plist */,
 			);
 			path = mongokittenExample;

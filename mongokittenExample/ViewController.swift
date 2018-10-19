@@ -10,8 +10,14 @@ import UIKit
 
 class ViewController: UITableViewController {
     
+    // table Array for storing the JSON Output
     var tableArray = [String] ()
     
+    // MARK: model is stored as lazy var
+    /* Swift documentation
+     * https://docs.swift.org/swift-book/LanguageGuide/Properties.html#ID257
+     * for more information
+     */
     lazy var model: ModelInput! = { [unowned self] in
         let model = Model()
         model.output = self
@@ -23,9 +29,11 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // table view
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
+        // calling model load function
         model.load()
     }
     
@@ -35,6 +43,7 @@ class ViewController: UITableViewController {
     }
 }
 
+// MARK: TableViewController
 extension ViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,17 +92,15 @@ extension ViewController {
 extension ViewController: ModelOutput {
     
     func modelDidLoad() {
-        print("modelDidLoad with items: \(model.items)")
-        model.items.forEach {
-            print($0)
+        for item in model.items {
+            tableArray.append(item.title)
         }
-
         
 //        print(self.tableArray)
         
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func modelDidFail(error: Error?) {
@@ -101,21 +108,26 @@ extension ViewController: ModelOutput {
     }
 }
 
+// FIXME: Move to a new swift file
+// Data structure stores the id and title
 struct Data: Codable {
     let id: String
     let title: String
 }
 
+// Inputs the data into the model
 protocol ModelInput {
     var items: [Data] { get }
     func load()
 }
 
+// Outputs the data from the model
 protocol ModelOutput: class {
     func modelDidLoad()
     func modelDidFail(error: Error?)
 }
 
+// Model class extends ModelInput
 final class Model: ModelInput {
     
     private (set) var items: [Data] = []
@@ -130,8 +142,11 @@ final class Model: ModelInput {
                 return
             }
             do {
-//                self?.items = try JSONDecoder().decode([Data].self, from: data)
-                self?.items = try JSONDecoder().decode(Array<Data>.self, from: data)
+/*
+ * Encoding and Decoding Custom Types
+ * https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types
+ */
+                self?.items = try JSONDecoder().decode([Data].self, from: data)
                 self?.output.modelDidLoad()
             } catch {
                 self?.output.modelDidFail(error: error)
